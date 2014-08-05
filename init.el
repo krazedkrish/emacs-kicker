@@ -7,14 +7,16 @@
 ;; Keywords: emacs setup el-get kick-start starter-kit
 ;; Licence: WTFPL, grab your copy here: http://sam.zoy.org/wtfpl/
 ;;
-;; This file is NOT part of GNU Emacs.
+;; Modified by krazedkrish <krazedkrish@gmail.com>
+;; For GNU Emacs
 
 (require 'cl)				; common lisp goodies, loop
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil t)
-  (url-retrieve-synchronously
+;;  (url-retrieve-synchronously
+  (url-retrieve
    "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
    (lambda (s)
      (end-of-buffer)
@@ -52,27 +54,20 @@
 (setq
  my:el-get-packages
  '(el-get				; el-get is self-hosting
-   escreen            			; screen for emacs, C-\ C-h
-   php-mode-improved			; if you're into php...
+;;   escreen            			; screen for emacs, C-\ C-h
+;;   php-mode-improved			; if you're into php...
    switch-window			; takes over C-x o
    auto-complete			; complete as you type with overlays
    yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
    color-theme		                ; nice looking emacs
-   color-theme-tango))	                ; check out color-theme-solarized
+   color-theme-solarized))	                ; check out color-theme-solarized
 
 ;;
 ;; Some recipes require extra tools to be installed
 ;;
 ;; Note: el-get-install requires git, so we know we have at least that.
 ;;
-(when (ignore-errors (el-get-executable-find "cvs"))
-  (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
-
-(when (ignore-errors (el-get-executable-find "svn"))
-  (loop for p in '(psvn    		; M-x svn-status
-		   )
-	do (add-to-list 'my:el-get-packages p)))
 
 (setq my:el-get-packages
       (append
@@ -88,15 +83,12 @@
 (column-number-mode 1)			; column numbers in the mode line
 
 (tool-bar-mode -1)			; no tool bar with icons
-(scroll-bar-mode -1)			; no scroll bars
+;;(scroll-bar-mode -1)			; no scroll bars
 (unless (string-match "apple-darwin" system-configuration)
   ;; on mac, there's always a menu bar drown, don't have it empty
   (menu-bar-mode -1))
 
 ;; choose your own fonts, in a system dependant way
-(if (string-match "apple-darwin" system-configuration)
-    (set-face-font 'default "Monaco-13")
-  (set-face-font 'default "Monospace-10"))
 
 (global-hl-line-mode)			; highlight current line
 (global-linum-mode 1)			; add line numbers on the left
@@ -106,12 +98,6 @@
 
 ;; copy/paste with C-c and C-v and C-x, check out C-RET too
 (cua-mode)
-
-;; under mac, have Command as Meta and keep Option for localized input
-(when (string-match "apple-darwin" system-configuration)
-  (setq mac-allow-anti-aliasing t)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'none))
 
 ;; Use the clipboard, pretty please, so that copy/paste "works"
 (setq x-select-enable-clipboard t)
@@ -181,3 +167,4 @@
   (set-frame-parameter nil 'fullscreen
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
+
