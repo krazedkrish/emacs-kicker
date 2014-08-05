@@ -15,5 +15,5 @@ fi
 
 mkdir -p ~/.emacs.d
 REPO=$PWD
-cd ~/.emacs.d && ln -s $REPO/init.el . 
+cp $REPO/init.el ~/.emacs.d/
 echo "Can start emacs now" 

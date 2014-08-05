@@ -9,6 +9,7 @@
 ;;
 ;; Modified by krazedkrish <krazedkrish@gmail.com>
 ;; For GNU Emacs
+;; For starters replace evil with ergoemacs-mode
 
 (require 'cl)				; common lisp goodies, loop
 
@@ -21,6 +22,9 @@
    (lambda (s)
      (end-of-buffer)
      (eval-print-last-sexp))))
+     
+; enable git shallow clone to save time and bandwidth
+(setq el-get-git-shallow-clone t)
 
 ;; now either el-get is `require'd already, or have been `load'ed by the
 ;; el-get installer.
@@ -61,7 +65,14 @@
    yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
    color-theme		                ; nice looking emacs
-   color-theme-solarized))	                ; check out color-theme-solarized
+   color-theme-solarized	        ; check out color-theme-solarized
+   evil					; vi mode
+   helm					; powerful completion and selection narrowing framework
+   minimap				; sublimetext-style minimap sidebar
+   neotree				; emacs tree plugin like NERD tree
+   highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
+   tabbar-ruler				;  
+))
 
 ;;
 ;; Some recipes require extra tools to be installed
@@ -73,6 +84,9 @@
       (append
        my:el-get-packages
        (loop for src in el-get-sources collect (el-get-source-name src))))
+
+;; load solarized theme
+(load-theme 'solarized-dark t)
 
 ;; install new packages and init already installed packages
 (el-get 'sync my:el-get-packages)
@@ -168,3 +182,6 @@
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
 
+;; enable evil mode
+(require 'evil)
+(evil-mode 1)
