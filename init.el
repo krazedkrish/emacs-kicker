@@ -186,19 +186,15 @@
 (global-set-key (kbd "C-x o") 'switch-window)
 
 ;; enable evil mode
-(require 'evil)
 (evil-mode 1)
 
 ;; minimap
-;;(require 'minimap)
 ;;(setq minimap-window-location 'left)
 
 ;; neotree
-(require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
 ;; highlight-sysmbol configurations
-    (require 'highlight-symbol)
     (global-set-key [(control f3)] 'highlight-symbol-at-point)
     (global-set-key [f3] 'highlight-symbol-next)
     (global-set-key [(shift f3)] 'highlight-symbol-prev)
@@ -213,3 +209,53 @@
 ;;  (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the
                                         ; scroll bar when your mouse is moving.
   (require 'tabbar-ruler)
+
+
+;; For downloading sulimity
+(defun download-git (url)
+  (let ((download-buffer (url-retrieve-synchronously url)))
+    (save-excursion
+      (set-buffer download-buffer)
+      ;; we may have to trim the http response
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (forward-char)
+      (delete-region (point-min) (point))
+      (write-file (concat "~/.emacs.d/plug-ins/"
+			      (car (last (split-string url "/" t)))))
+      (kill-buffer download-buffer))))
+
+(add-to-list 'load-path "~/.emacs.d/plug-ins")
+
+(unless (require 'sublimity nil t)
+  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
+(unless (require 'sublimity-scroll nil t)
+  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
+(unless (require 'sublimity-map nil t)
+  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
+(unless (require 'sublimity-attractive nil t)
+  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
+
+;; Actual sublimity configurations
+(sublimity-mode 1)
+
+;;(setq sublimity-scroll-weight 5
+;;      sublimity-scroll-drift-length 10)
+
+(setq sublimity-map-size 20)
+(setq sublimity-map-fraction 0.3)
+(setq sublimity-map-text-scale -7)
+
+(add-hook 'sublimity-map-setup-hook
+          (lambda ()
+            (setq buffer-face-mode-face '(:family "Monospace"))
+            (buffer-face-mode)))
+
+(sublimity-map-set-delay 3)
+
+(setq sublimity-attractive-centering-width 110)
+
+;;(sublimity-attractive-hide-bars)
+;;(sublimity-attractive-hide-vertical-border)
+;;(sublimity-attractive-hide-fringes)
+;;(sublimity-attractive-hide-modelines)
