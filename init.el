@@ -67,8 +67,8 @@
    color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarized
    evil					; vi mode
-   helm					; powerful completion and selection narrowing framework
-   minimap				; sublimetext-style minimap sidebar
+;;   helm					; powerful completion and selection narrowing framework
+;;   minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
@@ -85,11 +85,11 @@
        my:el-get-packages
        (loop for src in el-get-sources collect (el-get-source-name src))))
 
-;; load solarized theme
-(load-theme 'solarized-dark t)
-
 ;; install new packages and init already installed packages
 (el-get 'sync my:el-get-packages)
+
+;; load solarized theme
+(when (load-theme 'solarized-dark t))
 
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
@@ -182,6 +182,34 @@
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
 
+;; switch-window configurations
+(global-set-key (kbd "C-x o") 'switch-window)
+
 ;; enable evil mode
 (require 'evil)
 (evil-mode 1)
+
+;; minimap
+;;(require 'minimap)
+;;(setq minimap-window-location 'left)
+
+;; neotree
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+;; highlight-sysmbol configurations
+    (require 'highlight-symbol)
+    (global-set-key [(control f3)] 'highlight-symbol-at-point)
+    (global-set-key [f3] 'highlight-symbol-next)
+    (global-set-key [(shift f3)] 'highlight-symbol-prev)
+    (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
+
+
+;; tabbar-ruler configuration
+  (setq tabbar-ruler-global-tabbar t) ; If you want tabbar
+;;  (setq tabbar-ruler-global-ruler t) ; if you want a global ruler
+;;  (setq tabbar-ruler-popup-menu t) ; If you want a popup menu.
+;;  (setq tabbar-ruler-popup-toolbar t) ; If you want a popup toolbar
+;;  (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the
+                                        ; scroll bar when your mouse is moving.
+  (require 'tabbar-ruler)
