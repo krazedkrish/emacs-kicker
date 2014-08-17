@@ -210,6 +210,27 @@
                                         ; scroll bar when your mouse is moving.
   (require 'tabbar-ruler)
 
+;; for minimap
+;;;###autoload
+;; (defun minimap-toggle ()
+;;   "Toggle minimap for current buffer."
+;;   (interactive)
+;;   (if (null minimap-bufname)
+;;       (minimap-create)
+;;     (minimap-kill)))
+
+;; (defun minimap-toggle-retain-size ()
+;;   "Toggle minimap"
+;;   (interactive)
+;;   (if (or (not (boundp 'minimap-exists))
+;; 	  (not minimap-exists))
+;;       (progn (minimap-create)
+;; 	     (setf minimap-exists t)
+;; 	     (set-frame-width (selected-frame) 100))
+;;     (progn (minimap-kill)
+;; 	   (setf minimap-exists nil)
+;; 	   (set-frame-width (selected-frame) 80))))
+;; (global-set-key [f9] 'minimap-toggle-retain-size)
 
 ;; For downloading sulimity
 (defun download-git (url)
@@ -233,12 +254,16 @@
   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
 (unless (require 'sublimity-map nil t)
   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
-(unless (require 'sublimity-attractive nil t)
-  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
+;; (unless (require 'sublimity-attractive nil t)
+;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
 
 ;; Actual sublimity configurations
-(sublimity-mode 1)
-
+;;(sublimity-mode 1)
+(defun toggle-sublimity()
+  (interactive)
+  (if sublimity-mode (sublimity-mode 0)(sublimity-mode 1))
+)
+(global-set-key [f9] 'toggle-sublimity)
 ;;(setq sublimity-scroll-weight 5
 ;;      sublimity-scroll-drift-length 10)
 
@@ -251,11 +276,31 @@
             (setq buffer-face-mode-face '(:family "Monospace"))
             (buffer-face-mode)))
 
-(sublimity-map-set-delay 3)
+;;(sublimity-map-set-delay 3)
 
-(setq sublimity-attractive-centering-width 110)
+;;(setq sublimity-attractive-centering-width 110)
 
 ;;(sublimity-attractive-hide-bars)
 ;;(sublimity-attractive-hide-vertical-border)
 ;;(sublimity-attractive-hide-fringes)
 ;;(sublimity-attractive-hide-modelines)
+
+;;======================================================================
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z") 'undo)
+(global-unset-key (kbd "C-S-z"))
+(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(setq make-backup-files nil)
+(delete-selection-mode 1)
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(global-visual-line-mode t)
+
+(defun toggle-bars-view()
+  (interactive)
+  (if tool-bar-mode (tool-bar-mode 0) (tool-bar-mode 1))
+  (if menu-bar-mode (menu-bar-mode 0) (menu-bar-mode 1))
+)
+(global-set-key [f5] 'toggle-bars-view)
