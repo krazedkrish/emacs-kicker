@@ -1,4 +1,4 @@
-;; emacs kicker --- kick start emacs setup
+; emacs kicker --- kick start emacs setup
 ;; Copyright (C) 2010 Dimitri Fontaine
 ;;
 ;; Author: Dimitri Fontaine <dim@tapoueh.org>
@@ -64,14 +64,18 @@
    auto-complete			; complete as you type with overlays
    yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
-   color-theme		                ; nice looking emacs
+   ;;color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarized
    evil					; vi mode
 ;;   helm					; powerful completion and selection narrowing framework
-;;   minimap				; sublimetext-style minimap sidebar
+   minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
+   ezbl					;
+   nxhtml				; editing .rhtml or .html.erb
+   emacs-rails-reloaded			; rails plugin for emacs
+   ;; powerline				; emacs-powerline
 ))
 
 ;;
@@ -164,7 +168,7 @@
 ;; manager or do M-x kill-emacs.  Don't need a nice shortcut for a once a
 ;; week (or day) action.
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
+;;(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
 (global-set-key (kbd "C-x B") 'ibuffer)
 
 ;; have vertical ido completion lists
@@ -211,26 +215,26 @@
   (require 'tabbar-ruler)
 
 ;; for minimap
-;;;###autoload
-;; (defun minimap-toggle ()
-;;   "Toggle minimap for current buffer."
-;;   (interactive)
-;;   (if (null minimap-bufname)
-;;       (minimap-create)
-;;     (minimap-kill)))
+;; ###autoload
+(defun minimap-toggle ()
+  "Toggle minimap for current buffer."
+  (interactive)
+  (if (null minimap-bufname)
+      (minimap-create)
+    (minimap-kill)))
 
-;; (defun minimap-toggle-retain-size ()
-;;   "Toggle minimap"
-;;   (interactive)
-;;   (if (or (not (boundp 'minimap-exists))
-;; 	  (not minimap-exists))
-;;       (progn (minimap-create)
-;; 	     (setf minimap-exists t)
-;; 	     (set-frame-width (selected-frame) 100))
-;;     (progn (minimap-kill)
-;; 	   (setf minimap-exists nil)
-;; 	   (set-frame-width (selected-frame) 80))))
-;; (global-set-key [f9] 'minimap-toggle-retain-size)
+(defun minimap-toggle-retain-size ()
+  "Toggle minimap"
+  (interactive)
+  (if (or (not (boundp 'minimap-exists))
+	  (not minimap-exists))
+      (progn (minimap-create)
+	     (setf minimap-exists t)
+	     (set-frame-width (selected-frame) 100))
+    (progn (minimap-kill)
+	   (setf minimap-exists nil)
+	   (set-frame-width (selected-frame) 80))))
+(global-set-key [f9] 'minimap-toggle-retain-size)
 
 ;; For downloading sulimity
 (defun download-git (url)
@@ -248,33 +252,33 @@
 
 (add-to-list 'load-path "~/.emacs.d/plug-ins")
 
-(unless (require 'sublimity nil t)
-  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
-(unless (require 'sublimity-scroll nil t)
-  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
-(unless (require 'sublimity-map nil t)
-  (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
-;; (unless (require 'sublimity-attractive nil t)
-;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
+;; (unless (require 'sublimity nil t)
+;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
+;; (unless (require 'sublimity-scroll nil t)
+;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
+;; (unless (require 'sublimity-map nil t)
+;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
+;; ;; (unless (require 'sublimity-attractive nil t)
+;; ;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
 
-;; Actual sublimity configurations
-;;(sublimity-mode 1)
-(defun toggle-sublimity()
-  (interactive)
-  (if sublimity-mode (sublimity-mode 0)(sublimity-mode 1))
-)
-(global-set-key [f9] 'toggle-sublimity)
-;;(setq sublimity-scroll-weight 5
-;;      sublimity-scroll-drift-length 10)
+;; ;; Actual sublimity configurations
+;; ;;(sublimity-mode 1)
+;; (defun toggle-sublimity()
+;;   (interactive)
+;;   (if sublimity-mode (sublimity-mode 0)(sublimity-mode 1))
+;; )
+;; (global-set-key [f9] 'toggle-sublimity)
+;; ;;(setq sublimity-scroll-weight 5
+;; ;;      sublimity-scroll-drift-length 10)
 
-(setq sublimity-map-size 20)
-(setq sublimity-map-fraction 0.3)
-(setq sublimity-map-text-scale -7)
+;; (setq sublimity-map-size 20)
+;; (setq sublimity-map-fraction 0.3)
+;; (setq sublimity-map-text-scale -7)
 
-(add-hook 'sublimity-map-setup-hook
-          (lambda ()
-            (setq buffer-face-mode-face '(:family "Monospace"))
-            (buffer-face-mode)))
+;; (add-hook 'sublimity-map-setup-hook
+;;           (lambda ()
+;;             (setq buffer-face-mode-face '(:family "Monospace"))
+;;             (buffer-face-mode)))
 
 ;;(sublimity-map-set-delay 3)
 
@@ -285,12 +289,43 @@
 ;;(sublimity-attractive-hide-fringes)
 ;;(sublimity-attractive-hide-modelines)
 
+;; Ezbl configs
+(require 'ezbl)
+
+;; Powerline
+(unless (require 'powerline nil t)
+ (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
+ (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
+ (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
+ (require 'powerline))
+;; (require 'powerline)
+
+;;(powerline-default-theme)
+(powerline-evil-theme)
+;;(powerline-center-evil-theme)
+;;(setq powerline-arrow-shape 'curve)   ;; the default
+;; (custom-set-faces
+;;   '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+;;   '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
+;; Change Powerline color
+;; (set-face-attribute inverse-video nil)
+;; (setq powerline-color1 "#073642")
+;; (setq powerline-color2 "#002b36")
+
+;; (set-face-attribute 'mode-line nil
+;;                     :foreground "#fdf6e3"
+;;                     :background "#2aa198"
+;;                     :box nil)
+;; (set-face-attribute 'mode-line-inactive nil
+;;                     :box nil)
+
 ;;======================================================================
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
 (global-unset-key (kbd "C-S-z"))
 (global-set-key (kbd "C-S-z") 'undo-tree-redo)
 (setq make-backup-files nil)
+
 (delete-selection-mode 1)
 
 (tool-bar-mode 0)
@@ -304,3 +339,9 @@
   (if menu-bar-mode (menu-bar-mode 0) (menu-bar-mode 1))
 )
 (global-set-key [f5] 'toggle-bars-view)
+
+;; switching window buffers
+(global-set-key [s-left] 'windmove-left) 
+(global-set-key [s-right] 'windmove-right) 
+(global-set-key [s-up] 'windmove-up) 
+(global-set-key [s-down] 'windmove-down)
