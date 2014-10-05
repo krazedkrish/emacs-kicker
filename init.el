@@ -237,7 +237,7 @@
 (global-set-key [f9] 'minimap-toggle-retain-size)
 
 ;; For downloading sulimity
-(defun download-git (url)
+(defun download-get(url)
   (let ((download-buffer (url-retrieve-synchronously url)))
     (save-excursion
       (set-buffer download-buffer)
@@ -253,13 +253,13 @@
 (add-to-list 'load-path "~/.emacs.d/plug-ins")
 
 ;; (unless (require 'sublimity nil t)
-;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
+;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
 ;; (unless (require 'sublimity-scroll nil t)
-;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
+;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
 ;; (unless (require 'sublimity-map nil t)
-;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
+;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
 ;; ;; (unless (require 'sublimity-attractive nil t)
-;; ;;   (download-git "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
+;; ;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
 
 ;; ;; Actual sublimity configurations
 ;; ;;(sublimity-mode 1)
@@ -294,9 +294,9 @@
 
 ;; Powerline
 (unless (require 'powerline nil t)
- (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
- (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
- (download-git "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
+ (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
+ (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
+ (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
  (require 'powerline))
 ;; (require 'powerline)
 
@@ -318,6 +318,15 @@
 ;;                     :box nil)
 ;; (set-face-attribute 'mode-line-inactive nil
 ;;                     :box nil)
+
+
+;; download and include term-toggle
+(unless (require 'term-toggle nil t)
+  (download-get "http://www.emacswiki.org/emacs/download/term-toggle.el")
+  (require 'term-toggle))
+;; bind key
+(global-set-key [f4] 'term-toggle)
+
 
 ;;======================================================================
 (global-unset-key (kbd "C-z"))
@@ -345,3 +354,5 @@
 (global-set-key [s-right] 'windmove-right) 
 (global-set-key [s-up] 'windmove-up) 
 (global-set-key [s-down] 'windmove-down)
+
+;; toggle Terminal
