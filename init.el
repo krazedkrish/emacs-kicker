@@ -77,11 +77,20 @@
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
+   ;; ezbl					;
+   ;; nxhtml				; editing .rhtml or .html.erb
    ;; powerline				; emacs-powerline
    
    ;; python special packages
    
    ;; ruby special package
+   emacs-rails-reloaded			; rails plugin for emacs
+   flymake-ruby
+   rvm
+   inf-ruby
+   projectile
+   projectile-rails
+   robe-mode
 ))
 
 ;;
@@ -379,6 +388,10 @@
 
 ;; load ruby special configurations
 ;;======================================================================
+;; ruby special
+;; reference http://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
+;; hook flymake-ruby with ruby-mode
+(add hook 'ruby-mode-hook 'flymake-ruby-load)
 
 ;; global configurations
 ;;======================================================================
