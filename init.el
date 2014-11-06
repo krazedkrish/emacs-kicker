@@ -65,15 +65,16 @@
    yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
    ;;color-theme		                ; nice looking emacs
-   color-theme-solarized	        ; check out color-theme-solarized
+   color-theme-solarized	        ; check out color-theme-solarize
+   ;; color-theme-zenburn		        ; check out color-theme-zenburn
    evil					; vi mode
 ;;   helm					; powerful completion and selection narrowing framework
    minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
-   ezbl					;
-   nxhtml				; editing .rhtml or .html.erb
+   ;; ezbl					;
+   ;; nxhtml				; editing .rhtml or .html.erb
    emacs-rails-reloaded			; rails plugin for emacs
    ;; powerline				; emacs-powerline
 ))
@@ -196,7 +197,7 @@
 ;;(setq minimap-window-location 'left)
 
 ;; neotree
-(global-set-key [f8] 'neotree-toggle)
+(global-set-key [f12] 'neotree-toggle)
 
 ;; highlight-sysmbol configurations
     (global-set-key [(control f3)] 'highlight-symbol-at-point)
@@ -290,7 +291,7 @@
 ;;(sublimity-attractive-hide-modelines)
 
 ;; Ezbl configs
-(require 'ezbl)
+;; (require 'ezbl)
 
 ;; Powerline
 (unless (require 'powerline nil t)
