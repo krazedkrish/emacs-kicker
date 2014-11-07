@@ -382,6 +382,7 @@
 ;; hs-set-up-overlay functions
 ;;
 
+<<<<<<< HEAD
 
 ;; load python special configurations
 ;;======================================================================
@@ -394,6 +395,10 @@
 (add hook 'ruby-mode-hook 'flymake-ruby-load)
 
 ;; global configurations
+=======
+;; load ruby special configurations
+(load "~/.emacs.d/ruby-config.el")
+>>>>>>> restructure configs
 ;;======================================================================
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
@@ -421,6 +426,7 @@
 (global-set-key [s-up] 'windmove-up) 
 (global-set-key [s-down] 'windmove-down)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 ;;======================================================================
 ;; other user configs
@@ -479,3 +485,5 @@
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
   (rvm-activate-corresponding-ruby))
 >>>>>>> ruby configs
+=======
+>>>>>>> restructure configs
