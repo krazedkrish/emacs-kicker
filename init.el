@@ -73,10 +73,11 @@
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
-   ;; ezbl					;
-   ;; nxhtml				; editing .rhtml or .html.erb
-   emacs-rails-reloaded			; rails plugin for emacs
    ;; powerline				; emacs-powerline
+;;   highlight-indentation		; hightlight the indentations
+   highlight-parentheses		; hightlight the parantheses
+   multiple-cursors			; use multiple cursors to type
+   web-mode				; smart html library supporting template engines
 ))
 
 ;;
@@ -328,7 +329,50 @@
 ;; bind key
 (global-set-key [f4] 'term-toggle)
 
+;; enable web-mode for html and template engines
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) (add-to-list'auto-mode-alist '("\\.erb\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
+;; enable white space for python
+;; download and include hideshowvis.el
+(unless ( file-exists-p "~/.emacs.d/plug-ins/hideshowvis.el" )
+  (download-get "http://www.emacswiki.org/emacs/download/hideshowvis.el"))
+
+;; hideshowviz settings
+ (add-hook 'python-mode-hook 'whitespace-mode)
+ (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+;; enable hide show viz for code folding
+ (autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
+
+ (autoload 'hideshowvis-minor-mode
+   "hideshowvis"
+   "Will indicate regions foldable with hideshow in the fringe."
+   'interactive)
+
+
+  (dolist (hook (list 'emacs-lisp-mode-hook
+                      'c++-mode-hook))
+    (add-hook hook 'hideshowvis-enable))
+
+;; If enabling hideshowvis-minor-mode is slow on your machine use M-x,
+;; customize-option, hideshowvis-ignore-same-line and set it to nil. This will
+;; then display - icons for foldable regions of one line, too but is faster
+;;
+;; To enable displaying a + symbol in the fringe for folded regions,
+;; use:
+;;
+;;    (hideshowvis-symbols)
+
+;; in your ~/.emacs
+;;
+;; It is not enabled by default because it might interfere with custom
+;; hs-set-up-overlay functions
+;;
+
+;; load ruby special configurations
+;;======================================================================
+
+;; global configurations
 ;;======================================================================
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
@@ -356,4 +400,16 @@
 (global-set-key [s-up] 'windmove-up) 
 (global-set-key [s-down] 'windmove-down)
 
-;; toggle Terminal
+;;======================================================================
+;; other user configs
+(setq user-full-name "krazedkrish"
+      user-full-address "krazedkrish@gmail.com")
+
+(set-language-environment "UTF-8")
+
+;; hightlight entire bracket expression
+(setq show-paren-style 'expression)
+(show-paren-mode 1)
+
+;; highlight indentation
+;; (add-hook 'prog-mode-hook 'highlight-indentation )
