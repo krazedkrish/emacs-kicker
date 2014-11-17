@@ -91,6 +91,13 @@
    projectile
    projectile-rails
    robe-mode
+   flymake-easy				; required for flymake-css
+   ;; csslint				; required for flymake-css
+   flymake-css				; for css validation
+   flymake-sass
+   flymake-coffee
+   flymake-haml
+   
 ))
 
 ;;

@@ -40,3 +40,17 @@
 ;; using rvm so instructing robe to auto-trigger rvm-activate-corresponding-ruby.
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
   (rvm-activate-corresponding-ruby))
+
+;; for flymake-css
+(require 'flymake-css)
+(add-hook 'css-mode-hook 'flymake-css-load)
+
+;; for flymake-sass
+;; (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(add-hook 'sass-mode-hook 'flymake-sass-load)
+
+;; for flymake-coffee
+(add-hook 'coffee-mode-hook 'flymake-coffee-load)
+
+;; for flymake-haml
+(add-hook 'haml-mode-hook 'flymake-haml-load)
