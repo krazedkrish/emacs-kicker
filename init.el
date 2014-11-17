@@ -73,11 +73,15 @@
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
-   ;; powerline				; emacs-powerline
 ;;   highlight-indentation		; hightlight the indentations
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
+   ;; powerline				; emacs-powerline
+   
+   ;; python special packages
+   
+   ;; ruby special package
 ))
 
 ;;
@@ -368,6 +372,10 @@
 ;; It is not enabled by default because it might interfere with custom
 ;; hs-set-up-overlay functions
 ;;
+
+
+;; load python special configurations
+;;======================================================================
 
 ;; load ruby special configurations
 ;;======================================================================
