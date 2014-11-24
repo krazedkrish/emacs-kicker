@@ -99,7 +99,7 @@
 (el-get 'sync my:el-get-packages)
 
 ;; load solarized theme
-(when (load-theme 'solarized-dark t))
+(when (load-theme 'solarized-light t))
 
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
