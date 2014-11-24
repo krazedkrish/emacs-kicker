@@ -74,6 +74,7 @@
    smooth-scroll  ; smooth scroll
    
    ;; python special packages
+   jedi					; autocomplete for python
    
    ;; ruby special package
 
@@ -369,6 +370,7 @@
 
 ;; load python special configurations
 ;;======================================================================
+(load "~/.emacs.d/python-config.el")
 
 ;; load ruby special configurations
 ;;======================================================================
