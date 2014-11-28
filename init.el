@@ -73,7 +73,7 @@
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
-;;   highlight-indentation		; hightlight the indentations
+   highlight-indentation		; hightlight the indentations
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
@@ -99,7 +99,13 @@
 (el-get 'sync my:el-get-packages)
 
 ;; load solarized theme
-(when (load-theme 'solarized-light t))
+(setq hour 
+        (string-to-number 
+            (substring (current-time-string) 11 13))) ;;closes (setq hour...
+    (if (member hour (number-sequence 6 17))
+        (setq theme-to-load 'solarized-light)
+        (setq theme-to-load 'solarized-dark))
+(when (load-theme theme-to-load t))
 
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
@@ -299,15 +305,11 @@
 
 
 ;; highlight indentation
-(require 'highlight-indentation)
+;;(require 'highlight-indentation)
 (add-hook 'prog-mode-hook 'highlight-indentation-mode )
 
 ;; enable web-mode for html and template engines
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) (add-to-list'auto-mode-alist '("\\.erb\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-
-;; enable white space for python
-(add-hook 'python-mode-hook 'whitespace-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ;; download and include hideshowvis.el
 (unless ( file-exists-p "~/.emacs.d/plug-ins/hideshowvis.el" )
