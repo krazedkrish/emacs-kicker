@@ -73,7 +73,7 @@
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
-;;   highlight-indentation		; hightlight the indentations
+   highlight-indentation		; hightlight the indentations
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
@@ -115,7 +115,13 @@
 (el-get 'sync my:el-get-packages)
 
 ;; load solarized theme
-(when (load-theme 'solarized-dark t))
+(setq hour 
+        (string-to-number 
+            (substring (current-time-string) 11 13))) ;;closes (setq hour...
+    (if (member hour (number-sequence 6 17))
+        (setq theme-to-load 'solarized-light)
+        (setq theme-to-load 'solarized-dark))
+(when (load-theme theme-to-load t))
 
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
@@ -270,46 +276,10 @@
       (delete-region (point-min) (point))
       (write-file (concat "~/.emacs.d/plug-ins/"
 			      (car (last (split-string url "/" t)))))
-      (kill-buffer download-buffer))))
+      (kill-buffer download-buffer)))
+  (byte-recompile-directory (expand-file-name "~/.emacs.d/plug-ins") 0))
 
 (add-to-list 'load-path "~/.emacs.d/plug-ins")
-
-;; (unless (require 'sublimity nil t)
-;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity.el"))
-;; (unless (require 'sublimity-scroll nil t)
-;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-scroll.el"))
-;; (unless (require 'sublimity-map nil t)
-;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-map.el"))
-;; ;; (unless (require 'sublimity-attractive nil t)
-;; ;;   (download-get "https://raw.githubusercontent.com/zk-phi/sublimity/master/sublimity-attractive.el"))
-
-;; ;; Actual sublimity configurations
-;; ;;(sublimity-mode 1)
-;; (defun toggle-sublimity()
-;;   (interactive)
-;;   (if sublimity-mode (sublimity-mode 0)(sublimity-mode 1))
-;; )
-;; (global-set-key [f9] 'toggle-sublimity)
-;; ;;(setq sublimity-scroll-weight 5
-;; ;;      sublimity-scroll-drift-length 10)
-
-;; (setq sublimity-map-size 20)
-;; (setq sublimity-map-fraction 0.3)
-;; (setq sublimity-map-text-scale -7)
-
-;; (add-hook 'sublimity-map-setup-hook
-;;           (lambda ()
-;;             (setq buffer-face-mode-face '(:family "Monospace"))
-;;             (buffer-face-mode)))
-
-;;(sublimity-map-set-delay 3)
-
-;;(setq sublimity-attractive-centering-width 110)
-
-;;(sublimity-attractive-hide-bars)
-;;(sublimity-attractive-hide-vertical-border)
-;;(sublimity-attractive-hide-fringes)
-;;(sublimity-attractive-hide-modelines)
 
 ;; Ezbl configs
 ;; (require 'ezbl)
@@ -349,30 +319,31 @@
 ;; bind key
 (global-set-key [f4] 'term-toggle)
 
+
+;; highlight indentation
+;;(require 'highlight-indentation)
+(add-hook 'prog-mode-hook 'highlight-indentation-mode )
+
 ;; enable web-mode for html and template engines
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) (add-to-list'auto-mode-alist '("\\.erb\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)) (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
-;; enable white space for python
 ;; download and include hideshowvis.el
 (unless ( file-exists-p "~/.emacs.d/plug-ins/hideshowvis.el" )
   (download-get "http://www.emacswiki.org/emacs/download/hideshowvis.el"))
 
 ;; hideshowviz settings
- (add-hook 'python-mode-hook 'whitespace-mode)
- (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
 ;; enable hide show viz for code folding
- (autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
+(autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
 
- (autoload 'hideshowvis-minor-mode
-   "hideshowvis"
-   "Will indicate regions foldable with hideshow in the fringe."
-   'interactive)
+(autoload 'hideshowvis-minor-mode
+  "hideshowvis"
+  "Will indicate regions foldable with hideshow in the fringe."
+  'interactive)
 
 
-  (dolist (hook (list 'emacs-lisp-mode-hook
-                      'c++-mode-hook))
-    (add-hook hook 'hideshowvis-enable))
+(dolist (hook (list 'emacs-lisp-mode-hook
+		    'c++-mode-hook))
+  (add-hook hook 'hideshowvis-enable))
 
 ;; If enabling hideshowvis-minor-mode is slow on your machine use M-x,
 ;; customize-option, hideshowvis-ignore-same-line and set it to nil. This will
@@ -381,7 +352,7 @@
 ;; To enable displaying a + symbol in the fringe for folded regions,
 ;; use:
 ;;
-;;    (hideshowvis-symbols)
+;; (hideshowvis-symbols)
 
 ;; in your ~/.emacs
 ;;
