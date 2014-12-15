@@ -397,6 +397,10 @@
 (global-set-key [s-up] 'windmove-up) 
 (global-set-key [s-down] 'windmove-down)
 
+;; default indentation to 2 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
 ;;======================================================================
 ;; other user configs
 (setq user-full-name "krazedkrish"
