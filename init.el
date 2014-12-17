@@ -96,7 +96,12 @@
    flymake-sass
    flymake-coffee
    flymake-haml
-   
+   flymake-html-validator
+   haml-mode
+   yaml-mode
+   slim-mode
+   sass-mode
+   coffee-mode
 ))
 
 ;;
