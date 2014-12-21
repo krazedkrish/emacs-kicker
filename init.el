@@ -77,8 +77,6 @@
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
-   ;; ezbl					;
-   ;; nxhtml				; editing .rhtml or .html.erb
    ;; powerline				; emacs-powerline
    
    ;; python special packages
@@ -370,16 +368,6 @@
 ;; load ruby special configurations
 ;;======================================================================
 (load "~/.emacs.d/ruby-config.el")
-
-;; web indentations
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-;  (web-mode-attr-indent-offset 2)
-  )
-(add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; global configurations
 ;;======================================================================
