@@ -82,6 +82,8 @@
    ;; python special packages
    
    ;; ruby special package
+
+   ;; java + android special packages
 ))
 
 ;;
