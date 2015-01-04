@@ -84,6 +84,8 @@
    ;; ruby special package
 
    ;; java + android special packages
+   jdee                           ; autocomplete for java
+   jde-flymake                    ; flymake for java using jdee & jikes
 ))
 
 ;;
