@@ -84,8 +84,9 @@
    ;; ruby special package
 
    ;; java + android special packages
-   jdee                           ; autocomplete for java
-   jde-flymake                    ; flymake for java using jdee & jikes
+   jdee                         ; autocomplete for java
+   jde-flymake                  ; flymake for java using jdee & jikes
+   android-mode                 ; android-mode for android
 ))
 
 ;;
@@ -368,6 +369,8 @@
 
 ;; load java special configurations
 ;;======================================================================
+(load "~/.emacs.d/java-config.el")
+
 
 ;; global configurations
 ;;======================================================================
