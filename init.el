@@ -58,12 +58,10 @@
 (setq
  my:el-get-packages
  '(el-get				; el-get is self-hosting
-;;   escreen            			; screen for emacs, C-\ C-h
-;;   php-mode-improved			; if you're into php...
    switch-window			; takes over C-x o
    auto-complete			; complete as you type with overlays
    yasnippet 				; powerful snippet mode
-   zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
+   ;;zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
    ;;color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarize
    ;; color-theme-zenburn		        ; check out color-theme-zenburn
@@ -78,6 +76,7 @@
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
    ;; powerline				; emacs-powerline
+   git-gutter                           ;highlight git changes
    
    ;; python special packages
    
@@ -323,6 +322,8 @@
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
 
+;; git gutter config to start git gutter for global
+(global-git-gutter-mode +1)
 
 ;; download and include hideshowvis.el
 (unless ( file-exists-p "~/.emacs.d/plug-ins/hideshowvis.el" )
