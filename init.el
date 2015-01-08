@@ -100,7 +100,6 @@
    slim-mode
    sass-mode
    coffee-mode
-   emmet-mode
 
    ;; java + android special packages
 ))
