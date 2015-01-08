@@ -61,7 +61,7 @@
    switch-window			; takes over C-x o
    auto-complete			; complete as you type with overlays
    yasnippet 				; powerful snippet mode
-   ;;zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
+   emmet-mode                           ; zencode + others
    ;;color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarize
    ;; color-theme-zenburn		        ; check out color-theme-zenburn
@@ -324,6 +324,12 @@
 
 ;; git gutter config to start git gutter for global
 (global-git-gutter-mode +1)
+
+;; auto-load on your sgml modes:
+
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
 
 ;; download and include hideshowvis.el
 (unless ( file-exists-p "~/.emacs.d/plug-ins/hideshowvis.el" )
