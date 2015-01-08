@@ -76,7 +76,7 @@
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
    ;; powerline				; emacs-powerline
-   git-gutter                           ;highlight git changes
+   git-gutter+                           ;highlight git changes
    
    ;; python special packages
    
@@ -341,7 +341,7 @@
 (add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
 
 ;; git gutter config to start git gutter for global
-(global-git-gutter-mode +1)
+(global-git-gutter+-mode t)
 
 ;; auto-load on your sgml modes:
 
