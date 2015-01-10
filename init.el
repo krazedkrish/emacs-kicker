@@ -423,6 +423,17 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
+(global-set-key [f6] 'toggle-truncate-lines)
+(global-set-key [C-f11] 'speedbar)
+(global-set-key [C-mouse-4] 'text-scale-increase)
+(global-set-key [(control ?+)] 'text-scale-increase)
+(global-set-key [C-mouse-5] 'text-scale-decrease)
+(global-set-key [(control ?-)] 'text-scale-decrease)
+(global-set-key (kbd "C-0") '(lambda () (interactive)
+(text-scale-adjust
+(- text-scale-mode-amount))
+(text-scale-mode -1)))
+
 ;;======================================================================
 ;; other user configs
 (setq user-full-name "krazedkrish"
