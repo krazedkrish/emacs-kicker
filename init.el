@@ -210,6 +210,7 @@
 
 ;; neotree
 (global-set-key [f12] 'neotree-toggle)
+(setq neo-window-width 35)
 
 ;; highlight-sysmbol configurations
     (global-set-key [(control f3)] 'highlight-symbol-at-point)
