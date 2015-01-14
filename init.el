@@ -85,7 +85,6 @@
    flymake-ruby
    rvm
    inf-ruby
-   projectile
    projectile-rails
    robe-mode
    flymake-easy				; required for flymake-css
