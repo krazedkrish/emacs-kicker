@@ -382,7 +382,6 @@
 ;; It is not enabled by default because it might interfere with custom
 ;; hs-set-up-overlay functions
 ;;
-
 ;; replace default ido with flx-ido
 (unless (require 'flx-ido nil t)
   (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx.el")
@@ -392,6 +391,7 @@
 
 ;; configurations for projectile
 (projectile-global-mode)
+
 
 ;; load python special configurations
 ;;======================================================================
