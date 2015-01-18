@@ -230,6 +230,9 @@
 (global-set-key [f12] 'neotree-toggle)
 (setq neo-window-width 35)
 
+;;When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
+(setq projectile-switch-project-action 'neotree-projectile-action)
+
 ;; highlight-sysmbol configurations
     (global-set-key [(control f3)] 'highlight-symbol-at-point)
     (global-set-key [f3] 'highlight-symbol-next)
