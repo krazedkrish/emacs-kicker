@@ -2,14 +2,14 @@
 
 ;; indentations
 ;; web indentations
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
+;(defun my-web-mode-hook ()
+;  "Hooks for Web mode."
+;  (setq web-mode-markup-indent-offset 2)
+;  (setq web-mode-css-indent-offset 2)
+;  (setq web-mode-code-indent-offset 2)
 ;  (web-mode-attr-indent-offset 2)
-  )
-(add-hook 'web-mode-hook 'my-web-mode-hook)
+;  )
+;(add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; reference http://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html
 ;; hook flymake-ruby with ruby-mode
@@ -75,3 +75,14 @@
 (setq whitespace-action '(auto-cleanup))
 ;; only show bad whitespace
 (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(coffee-tab-width 2)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-markup-indent-offset 2))
+
