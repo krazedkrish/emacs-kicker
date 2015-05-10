@@ -77,6 +77,7 @@
    web-mode				; smart html library supporting template engines
    ;; powerline				; emacs-powerline
    git-gutter                           ;highlight git changes
+   projectile                           ;project interaction library
    
    ;; python special packages
    
@@ -381,6 +382,16 @@
 ;; It is not enabled by default because it might interfere with custom
 ;; hs-set-up-overlay functions
 ;;
+
+;; replace default ido with flx-ido
+(unless (require 'flx-ido nil t)
+  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx.el")
+  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx-ido.el")
+  (require 'flx-ido))
+(flx-ido-mode 1)
+
+;; configurations for projectile
+(projectile-global-mode)
 
 ;; load python special configurations
 ;;======================================================================
