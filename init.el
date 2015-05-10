@@ -77,6 +77,23 @@
    jedi					; autocomplete for python
    
    ;; ruby special package
+   emacs-rails-reloaded			; rails plugin for emacs
+   flymake-ruby
+   rvm
+   inf-ruby
+   projectile-rails
+   robe-mode
+   flymake-easy				; required for flymake-css
+   flymake-css				; for css validation
+   flymake-sass
+   flymake-coffee
+   flymake-haml
+   flymake-html-validator
+   haml-mode
+   yaml-mode
+   slim-mode
+   sass-mode
+   coffee-mode
 
    ;; java + android special packages
 ))
@@ -374,6 +391,25 @@
 
 ;; load ruby special configurations
 ;;======================================================================
+(load "~/.emacs.d/ruby-config.el")
+
+;; load java special configurations
+;;======================================================================
+
+;; web-mod configs
+;;======================================================================
+;; enable web-mode for html and template engines
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
 
 ;; load java special configurations
 ;;======================================================================
