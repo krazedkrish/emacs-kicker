@@ -100,6 +100,8 @@
    slim-mode
    sass-mode
    coffee-mode
+
+   ;; java + android special packages
 ))
 
 ;;
