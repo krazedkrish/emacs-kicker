@@ -63,7 +63,7 @@
    minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
-   tabbar-ruler				;  
+;; tabbar-ruler				;  
    highlight-indentation		; hightlight the indentations
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
@@ -226,13 +226,13 @@
 
 
 ;; tabbar-ruler configuration
-  (setq tabbar-ruler-global-tabbar t) ; If you want tabbar
+;;  (setq tabbar-ruler-global-tabbar t) ; If you want tabbar
 ;;  (setq tabbar-ruler-global-ruler t) ; if you want a global ruler
 ;;  (setq tabbar-ruler-popup-menu t) ; If you want a popup menu.
 ;;  (setq tabbar-ruler-popup-toolbar t) ; If you want a popup toolbar
 ;;  (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the
                                         ; scroll bar when your mouse is moving.
-  (require 'tabbar-ruler)
+;;  (require 'tabbar-ruler)
 
 ;; for minimap
 ;; ###autoload
