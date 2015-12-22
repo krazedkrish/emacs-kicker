@@ -58,7 +58,6 @@
    ;;color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarize
    ;; color-theme-zenburn		        ; check out color-theme-zenburn
-   evil					; vi mode
 ;;   helm					; powerful completion and selection narrowing framework
    minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
@@ -196,9 +195,6 @@
 
 ;; switch-window configurations
 (global-set-key (kbd "C-x o") 'switch-window)
-
-;; enable evil mode
-(evil-mode 1)
 
 ;; minimap
 ;;(setq minimap-window-location 'left)
