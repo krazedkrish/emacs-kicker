@@ -38,9 +38,9 @@
 		   (global-set-key (kbd "M-x") 'smex)
 		   (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
 
-   (:name magit				; git meet emacs, and a binding
-	  :after (progn
-		   (global-set-key (kbd "C-x C-z") 'magit-status)))
+   ;; (:name magit				; git meet emacs, and a binding
+   ;; 	  :after (progn
+   ;; 		   (global-set-key (kbd "C-x C-z") 'magit-status)))
 
    (:name goto-last-change		; move pointer back to last change
 	  :after (progn
@@ -67,7 +67,7 @@
    highlight-parentheses		; hightlight the parantheses
    multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
-   ;; powerline				; emacs-powerline
+   powerline				; emacs-powerline
    git-gutter                           ;highlight git changes
    projectile                           ;project interaction library
    smooth-scroll  ; smooth scroll
@@ -94,13 +94,7 @@
 (el-get 'sync my:el-get-packages)
 
 ;; load solarized theme
-(setq hour 
-        (string-to-number 
-            (substring (current-time-string) 11 13))) ;;closes (setq hour...
-    (if (member hour (number-sequence 6 17))
-        (setq theme-to-load 'solarized-light)
-        (setq theme-to-load 'solarized-dark))
-(when (load-theme theme-to-load t))
+(color-theme-solarized)
 
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
@@ -272,15 +266,15 @@
 ;; (require 'ezbl)
 
 ;; Powerline
-(unless (require 'powerline nil t)
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
- (require 'powerline))
+;; (unless (require 'powerline nil t)
+;;  (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
+;;  (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
+;;  (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
+;;  (require 'powerline))
 ;; (require 'powerline)
 
 ;;(powerline-default-theme)
-(powerline-evil-theme)
+;; (powerline-evil-theme)
 ;;(powerline-center-evil-theme)
 ;;(setq powerline-arrow-shape 'curve)   ;; the default
 ;; (custom-set-faces
