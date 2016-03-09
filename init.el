@@ -11,6 +11,14 @@
 ;; For GNU Emacs
 ;; For starters replace evil with ergoemacs-mode
 
+
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (require 'cl)				; common lisp goodies, loop
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -28,6 +36,7 @@
 
 ;; now either el-get is `require'd already, or have been `load'ed by the
 ;; el-get installer.
+
 
 ;; set local recipes
 (setq
@@ -47,6 +56,9 @@
 		   ;; when using AZERTY keyboard, consider C-x C-_
 		   (global-set-key (kbd "C-x C-/") 'goto-last-change)))))
 
+
+
+
 ;; now set our own packages
 (setq
  my:el-get-packages
@@ -55,32 +67,33 @@
    auto-complete			; complete as you type with overlays
    yasnippet 				; powerful snippet mode
    emmet-mode                           ; zencode + others
-   ;;color-theme		                ; nice looking emacs
+   color-theme		                ; nice looking emacs
    color-theme-solarized	        ; check out color-theme-solarize
-   ;; color-theme-zenburn		        ; check out color-theme-zenburn
-   evil					; vi mode
-;;   helm					; powerful completion and selection narrowing framework
+   color-theme-zenburn		        ; check out color-theme-zenburn
+   ;;helm					; powerful completion and selection narrowing framework
    minimap				; sublimetext-style minimap sidebar
    neotree				; emacs tree plugin like NERD tree
    highlight-symbol			; highlight the same symbols in code, navigate in them, or replace string 
    tabbar-ruler				;  
    highlight-indentation		; hightlight the indentations
    highlight-parentheses		; hightlight the parantheses
-   multiple-cursors			; use multiple cursors to type
    web-mode				; smart html library supporting template engines
-   ;; powerline				; emacs-powerline
-   git-gutter                           ;highlight git changes
-   projectile                           ;project interaction library
-   smooth-scroll  ; smooth scroll
-   
-   ;; python special packages
+   ;; git-gutter                           ;highlight git changes
+   ;; projectile ;project interaction library
+   smooth-scroll  ; smooth scroll   
+   ;;python special packages
    jedi					; autocomplete for python
-   
+   markdown-mode ; Markdown mode
+   which-key
+   powerline
+   ;;outshine
+
    ;; ruby special package
    emacs-rails-reloaded			; rails plugin for emacs
    flymake-ruby
    rvm
    inf-ruby
+   projectile
    projectile-rails
    robe-mode
    flymake-easy				; required for flymake-css
@@ -96,11 +109,11 @@
    coffee-mode
 
    ;; java + android special packages
-   ;;jdee                         ; autocomplete for java
-   ;;jde-flymake                  ; flymake for java using jdee & jikes
-   java-complete                ; auto complete for java
+   jdee                         ; autocomplete for java
+   ;;jde-flymake                  ; flymake for java using jdee & ;;jikes
+   ;;java-complete                ; auto complete for java
    android-mode                 ; android-mode for android
-))
+   ))
 
 ;;
 ;; Some recipes require extra tools to be installed
@@ -116,13 +129,37 @@
 ;; install new packages and init already installed packages
 (el-get 'sync my:el-get-packages)
 
-;; load solarized theme
+;; For downloading extra things
+(defun download-get(url)
+  (let ((download-buffer (url-retrieve-synchronously url)))
+    (save-excursion
+      (set-buffer download-buffer)
+      ;; we may have to trim the http response
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (forward-char)
+      (delete-region (point-min) (point))
+      (write-file (concat "~/.emacs.d/plug-ins/"
+			      (car (last (split-string url "/" t)))))
+      (kill-buffer download-buffer)))
+  (byte-recompile-directory (expand-file-name "~/.emacs.d/plug-ins") 0))
+
+(add-to-list 'load-path "~/.emacs.d/plug-ins")
+
+;; load material theme according to time
+;; org: https://github.com/cpaulik/emacs-material-theme
+;; download and include material theme.el
+(unless ( file-exists-p "~/.emacs.d/plug-ins/material-theme.el" )
+  (download-get "https://github.com/cpaulik/emacs-material-theme/raw/master/material-light-theme.el")
+  (download-get "https://github.com/cpaulik/emacs-material-theme/raw/master/material-theme.el"))
+(setq custom-theme-directory "~/.emacs.d/plug-ins/")
+;;(load-theme 'material-light t)
 (setq hour 
         (string-to-number 
             (substring (current-time-string) 11 13))) ;;closes (setq hour...
     (if (member hour (number-sequence 6 17))
-        (setq theme-to-load 'solarized-light)
-        (setq theme-to-load 'solarized-dark))
+        (setq theme-to-load 'material-light)
+        (setq theme-to-load 'material))
 (when (load-theme theme-to-load t))
 
 ;; on to the visual settings
@@ -201,6 +238,13 @@
 ;;(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
 (global-set-key (kbd "C-x B") 'ibuffer)
 
+;; replace default ido with flx-ido
+(unless (require 'flx-ido nil t)
+  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx.el")
+  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx-ido.el")
+  (require 'flx-ido))
+(flx-ido-mode 1)
+
 ;; have vertical ido completion lists
 (setq ido-decorations
       '("\n-> " "" "\n   " "\n   ..." "[" "]"
@@ -220,7 +264,10 @@
 (global-set-key (kbd "C-x o") 'switch-window)
 
 ;; enable evil mode
-(evil-mode 1)
+;; (evil-mode 1)
+;;(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+;;(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+;;(ergoemacs-mode 1)
 
 ;; minimap
 ;;(setq minimap-window-location 'left)
@@ -229,31 +276,15 @@
 (global-set-key [f12] 'neotree-toggle)
 (setq neo-window-width 35)
 
-;;When running ‘projectile-switch-project’ (C-c p p), ‘neotree’ will change root automatically.
-(setq projectile-switch-project-action 'neotree-projectile-action)
+;; highlight entire bracket expression
+(setq show-paren-style 'expression)
+(show-paren-mode 1)
 
 ;; highlight-sysmbol configurations
-(global-set-key [(control f3)] 'highlight-symbol-at-point)
-(global-set-key [f3] 'highlight-symbol-next)
-(global-set-key [(shift f3)] 'highlight-symbol-prev)
-(global-set-key [(meta f3)] 'highlight-symbol-query-replace)
-(global-set-key [(control shift f3)] 'unhighlight-regexp)
-(global-set-key [(control shift mouse-1)]
-                (lambda (event)
-                  (interactive "e")
-                  (save-excursion
-                    (goto-char (posn-point (event-start event)))
-                    (highlight-symbol-at-point))))
-
-
-;; tabbar-ruler configuration
-;;  (setq tabbar-ruler-global-tabbar t) ; If you want tabbar
-;;  (setq tabbar-ruler-global-ruler t) ; if you want a global ruler
-;;  (setq tabbar-ruler-popup-menu t) ; If you want a popup menu.
-;;  (setq tabbar-ruler-popup-toolbar t) ; If you want a popup toolbar
-;;  (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the
-                                        ; scroll bar when your mouse is moving.
-;;  (require 'tabbar-ruler)
+    (global-set-key [(control f3)] 'highlight-symbol-at-point)
+    (global-set-key [f3] 'highlight-symbol-next)
+    (global-set-key [(shift f3)] 'highlight-symbol-prev)
+    (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
 
 ;; for minimap
 ;; ###autoload
@@ -277,53 +308,8 @@
 	   (set-frame-width (selected-frame) 80))))
 (global-set-key [f9] 'minimap-toggle-retain-size)
 
-;; For downloading sulimity
-(defun download-get(url)
-  (let ((download-buffer (url-retrieve-synchronously url)))
-    (save-excursion
-      (set-buffer download-buffer)
-      ;; we may have to trim the http response
-      (goto-char (point-min))
-      (re-search-forward "^$" nil 'move)
-      (forward-char)
-      (delete-region (point-min) (point))
-      (write-file (concat "~/.emacs.d/plug-ins/"
-			      (car (last (split-string url "/" t)))))
-      (kill-buffer download-buffer)))
-  (byte-recompile-directory (expand-file-name "~/.emacs.d/plug-ins") 0))
-
-(add-to-list 'load-path "~/.emacs.d/plug-ins")
-
 ;; Ezbl configs
 ;; (require 'ezbl)
-
-;; Powerline
-(unless (require 'powerline nil t)
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline.el")
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-separators.el")
- (download-get "https://raw.githubusercontent.com/emmel/powerline/master/powerline-themes.el")
- (require 'powerline))
-;; (require 'powerline)
-
-;;(powerline-default-theme)
-(powerline-evil-theme)
-;;(powerline-center-evil-theme)
-;;(setq powerline-arrow-shape 'curve)   ;; the default
-;; (custom-set-faces
-;;   '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-;;   '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-;; Change Powerline color
-;; (set-face-attribute inverse-video nil)
-;; (setq powerline-color1 "#073642")
-;; (setq powerline-color2 "#002b36")
-
-;; (set-face-attribute 'mode-line nil
-;;                     :foreground "#fdf6e3"
-;;                     :background "#2aa198"
-;;                     :box nil)
-;; (set-face-attribute 'mode-line-inactive nil
-;;                     :box nil)
-
 
 ;; download and include term-toggle
 (unless (require 'term-toggle nil t)
@@ -332,10 +318,44 @@
 ;; bind key
 (global-set-key [f4] 'term-toggle)
 
+;; markdown mode
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; highlight indentation
 ;;(require 'highlight-indentation)
 (add-hook 'prog-mode-hook 'highlight-indentation-mode )
+
+;; enable web-mode for html and template engines
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
+
+;; watch-words
+(defun watch-words ()
+  (interactive)
+  (font-lock-add-keywords
+   nil '(("\\<\\(FIX ?-?\\(ME\\)?\\|TODO\\|BUGS?\\|TIPS?\\|TESTING\\|WARN\\(ING\\)?S?\\|WISH\\|IMP\\|NOTE\\)"
+          1 font-lock-warning-face t))))
+
+(add-hook 'prog-mode-hook 'watch-words)
+(add-hook 'org-mode 'watch-words)
+
+
+;;(add-hook 'prog-mode-hook
+;;          (lambda () (yafolding-mode)))
+
 
 ;; git gutter config to start git gutter for global
 (global-git-gutter-mode +1)
@@ -359,10 +379,13 @@
   "Will indicate regions foldable with hideshow in the fringe."
   'interactive)
 
-
-(dolist (hook (list 'emacs-lisp-mode-hook
-		    'c++-mode-hook))
-  (add-hook hook 'hideshowvis-enable))
+(add-hook 'prog-mode-hook 'hideshowvis-enable)
+(add-hook 'markdown-mode-hook 'hideshowvis-enable)
+(add-hook 'web-mode-hook 'hideshowvis-enable)
+;; (add-hook 'python-mode-hook 'hideshowvis-en
+;; (dolist (hook (list 'emacs-lisp-mode-hook
+;; 		    'c++-mode-hook))
+;;   (add-hook hook 'hideshowvis-enable))
 
 ;; If enabling hideshowvis-minor-mode is slow on your machine use M-x,
 ;; customize-option, hideshowvis-ignore-same-line and set it to nil. This will
@@ -378,16 +401,6 @@
 ;; It is not enabled by default because it might interfere with custom
 ;; hs-set-up-overlay functions
 ;;
-;; replace default ido with flx-ido
-(unless (require 'flx-ido nil t)
-  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx.el")
-  (download-get "https://raw.githubusercontent.com/lewang/flx/master/flx-ido.el")
-  (require 'flx-ido))
-(flx-ido-mode 1)
-
-;; configurations for projectile
-(projectile-global-mode)
-
 
 ;; load python special configurations
 ;;======================================================================
@@ -401,39 +414,6 @@
 ;;======================================================================
 (load "~/.emacs.d/java-config.el")
 
-
-;; web-mod configs
-;;======================================================================
-;; enable web-mode for html and template engines
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
-
-;; load java special configurations
-;;======================================================================
-
-;; web-mod configs
-;;======================================================================
-;; enable web-mode for html and template engines
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.xcss\\'" . web-mode))
 
 ;; global configurations
 ;;======================================================================
@@ -450,6 +430,22 @@
 (scroll-bar-mode 0)
 (global-visual-line-mode t)
 
+;; comment action change
+(global-unset-key (kbd "C-S-/"))             ;
+(global-set-key (kbd "C-S-/") 'comment-line) ;
+
+
+;; full buffer selct
+;; (global-unset-key (kbd "C-s"))
+(global-set-key(kbd "C-a") 'mark-whole-buffer)
+
+
+;; goto line
+(global-set-key "\C-cg" 'goto-line)
+(global-set-key "\C-cl" 'goto-last-change)
+
+(setq frame-title-format "%b")
+
 (defun toggle-bars-view()
   (interactive)
   (if tool-bar-mode (tool-bar-mode 0) (tool-bar-mode 1))
@@ -458,10 +454,10 @@
 (global-set-key [f5] 'toggle-bars-view)
 
 ;; switching window buffers
-(global-set-key [s-left] 'windmove-left) 
-(global-set-key [s-right] 'windmove-right) 
-(global-set-key [s-up] 'windmove-up) 
-(global-set-key [s-down] 'windmove-down)
+(global-set-key [M-left] 'windmove-left) 
+(global-set-key [M-right] 'windmove-right) 
+(global-set-key [M-up] 'windmove-up) 
+(global-set-key [M-down] 'windmove-down)
 
 ;; default indentation to 2 spaces
 (setq-default indent-tabs-mode nil)
@@ -478,6 +474,42 @@
 (- text-scale-mode-amount))
 (text-scale-mode -1)))
 
+;; key binding
+(global-set-key [f7] 'tabbar-mode)
+(global-set-key [(control shift prior)] 'tabbar-backward-group)
+(global-set-key [(control shift next)] 'tabbar-forward-group)
+(define-key global-map [(control tab)] 'tabbar-forward)
+(define-key global-map (kbd "C-<next>") 'tabbar-forward)
+(define-key global-map (kbd "C-S-<iso-lefttab>") 'tabbar-backward)
+(define-key global-map (kbd "C-<prior>") 'tabbar-backward)
+
+;; web mode settings
+
+(setq web-mode-enable-current-column-highlight t)
+
+;;======================================================================
+
+;; tabbar-rule + mode-icons + powerline
+
+;; for mode-icons-mode
+;; DOWNLOAD AND PLACE THE ICONS FOLDER IN "~/.emacs.d/plug-ins/"
+(unless ( file-exists-p "~/.emacs.d/plug-ins/mode-icons.el" )
+  (download-get "https://raw.githubusercontent.com/ryuslash/mode-icons/master/mode-icons.el"))
+(require 'mode-icons)
+;;(load-file "~/.emacs.d/plug-ins/mode-icons.el")
+(mode-icons-mode)
+
+;; (setq tabbar-ruler-fancy-current-tab-separator 'wave)
+;; (setq tabbar-ruler-fancy-tab-separator 'zigzag)
+(setq tabbar-ruler-fancy-current-tab-separator 'zigzag)
+(setq tabbar-ruler-fancy-tab-separator 'chamfer)
+(load "~/.emacs.d/tabbar.el")
+;; (load "~/.emacs.d/config/modeline.el")
+(require 'powerline)
+(load "~/.emacs.d/powerline-iconic-theme.el")
+(powerline-iconic-theme)
+(load-library "url-handlers")
+
 ;;======================================================================
 ;; other user configs
 (setq user-full-name "krazedkrish"
@@ -485,6 +517,24 @@
 
 (set-language-environment "UTF-8")
 
-;; hightlight entire bracket expression
-(setq show-paren-style 'expression)
-(show-paren-mode 1)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(coffee-tab-width 2)
+ '(cua-enable-cua-keys nil)
+ '(custom-safe-themes
+   (quote
+    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(delete-selection-mode t)
+ '(org-CUA-compatible nil)
+ '(org-replace-disputed-keys nil)
+ '(recentf-mode t)
+ '(shift-select-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
